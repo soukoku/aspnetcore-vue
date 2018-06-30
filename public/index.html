@@ -13,6 +13,7 @@
     </noscript>
     <div id="app"></div>
     <% if (NODE_ENV === 'development') { %>
+    <!-- only loaded in dev time for HMR in IE/Edge -->
     <script src="<%= BASE_URL %>js/eventsource.js"></script>
     <% } %>
     <!-- built files will be auto injected -->
