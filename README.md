@@ -4,14 +4,14 @@ A sample project setup with these features:
 
 * asp.net core 2.1 for server-side code
 * vue.js for client-side code (created with cli v3)
-* both live in one project, only one aspnet site to debug in VS
-* working HMR when using debugging the aspnet site
+* both live in one project with only one aspnet site to debug in VS
+* working HMR when using debug the aspnet site
 
 Below are the mods to make this happen.
 
 # Server-side mods
 
-In Startup.cs, particularly the additions with
+In `Startup.cs`, particularly the 
 `UseWebpackDevMiddleware()` and `MapSpaFallbackRoute()` calls.
 
 ```cs
