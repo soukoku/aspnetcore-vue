@@ -8,19 +8,19 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "vue": "^2.5.16",
+    "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-rc.3",
-    "@vue/cli-plugin-eslint": "^3.0.0-rc.3",
-    "@vue/cli-service": "^3.0.0-rc.3",
-    "@vue/eslint-config-standard": "^3.0.0-rc.3",
+    "@vue/cli-plugin-babel": "^3.0.0-rc.10",
+    "@vue/cli-plugin-eslint": "^3.0.0-rc.10",
+    "@vue/cli-service": "^3.0.0-rc.10",
+    "@vue/eslint-config-standard": "^3.0.0-rc.10",
     "aspnet-webpack": "^3.0.0",
     "eventsource-polyfill": "^0.9.6",
-    "vue-template-compiler": "^2.5.16",
-    "webpack-hot-middleware": "^2.22.2"
+    "vue-template-compiler": "^2.5.17",
+    "webpack-hot-middleware": "^2.22.3"
   },
   "eslintConfig": {
     "root": true,
