@@ -13,10 +13,10 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-rc.10",
-    "@vue/cli-plugin-eslint": "^3.0.0-rc.10",
-    "@vue/cli-service": "^3.0.0-rc.10",
-    "@vue/eslint-config-standard": "^3.0.0-rc.10",
+    "@vue/cli-plugin-babel": "^3.0.0",
+    "@vue/cli-plugin-eslint": "^3.0.0",
+    "@vue/cli-service": "^3.0.0",
+    "@vue/eslint-config-standard": "^3.0.0",
     "aspnet-webpack": "^3.0.0",
     "eventsource-polyfill": "^0.9.6",
     "vue-template-compiler": "^2.5.17",
