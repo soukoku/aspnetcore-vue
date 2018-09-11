@@ -2,7 +2,7 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "Eugene Wang",
   "classifications": ["Web", "MVC", "SPA", "Vue"],
-  "identity": "Soukoku.VueTemplate.CSharp",
+  "identity": "Soukoku.Spa.VueTemplate",
   "name": "ASP.NET Core 2.1 with Vue cli 3 + HMR",
   "shortName": "vuecli3",
   "tags": {

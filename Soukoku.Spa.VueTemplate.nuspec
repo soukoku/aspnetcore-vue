@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Soukoku.Spa.VueTemplate</id>
+    <version>0.1.0</version>
+    <description>
+      ASP.NET Core 2.1 SPA template with Vue cli 3 + HMR
+    </description>
+    <authors>Eugene Wang</authors>
+    <licenseUrl>https://raw.githubusercontent.com/soukoku/aspnetcore-vue/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/soukoku/aspnetcore-vue</projectUrl>
+    <!-- <iconUrl></iconUrl> -->
+    <language>en-US</language>
+    <tags>aspnet template spa vue</tags>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+  </metadata>
+  <files>
+    <file src="**" exclude=".*\**;*.sln;license;*.nupkg;*.cmd;*.md;content\bin\**;content\obj\**;content\node_modules\**;content\dist\**;content\*.user;content\Properties\PublishProfiles\**;" />
+  </files>
+</package>
