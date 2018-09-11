@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Soukoku.VueTemplate.CSharp</id>
+    <version>1.0.0</version>
+    <description>
+      ASP.NET Core 2.1 template with Vue cli 3 + HMR
+    </description>
+    <authors>Eugene Wang</authors>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+  </metadata>
+  <files>
+    <file src="**" exclude=".git*\**;*.sln;license;*.nupkg;content\bin\**;content\obj\**;content\node_modules\**;content\dist\**;content\*.user;content\Properties\PublishProfiles\**;" />
+  </files>
+</package>
