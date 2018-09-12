@@ -10,5 +10,10 @@
     "type": "project"
   },
   "sourceName": "aspnetcore_vue",
-  "preferNameDirectory": true
+  "preferNameDirectory": true,
+  "primaryOutputs": [
+    {
+      "path": "aspnetcore_vue.csproj"
+    }
+  ]
 }
