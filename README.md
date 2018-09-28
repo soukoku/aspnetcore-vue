@@ -15,14 +15,14 @@ In `Startup.cs`, particularly the
 `services.AddSpaStaticFiles()` and `app.UseSpa()` calls
 after what's normally there in an aspnet project template.
 
-```diff
+```cs
 public void ConfigureServices(IServiceCollection services)
 {
   services.AddMvc();
-+  services.AddSpaStaticFiles(config =>
-+  {
-+    config.RootPath = "dist";
-+  });
+  services.AddSpaStaticFiles(config =>
+  {
+    config.RootPath = "dist";
+  });
 }
 
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -32,18 +32,18 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
   app.UseStaticFiles();
   app.UseMvc();
 
-+  app.UseSpa(config =>
-+  {
-+    if (env.IsDevelopment())
-+    {
-+      config.ApplicationBuilder.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-+      {
-+        HotModuleReplacement = true,
-+        ConfigFile = Path.Combine(env.ContentRootPath, 
-+          @"node_modules\@vue\cli-service\webpack.config.js")
-+      });
-+      }
-+  });
+  app.UseSpa(config =>
+  {
+    if (env.IsDevelopment())
+    {
+      config.ApplicationBuilder.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+      {
+        HotModuleReplacement = true,
+        ConfigFile = Path.Combine(env.ContentRootPath, 
+          @"node_modules\@vue\cli-service\webpack.config.js")
+      });
+      }
+  });
 }
 ```
 
