@@ -12,33 +12,38 @@ Below are the mods to make this happen.
 # Server-side mods
 
 In `Startup.cs`, particularly the 
-`UseWebpackDevMiddleware()` and `MapSpaFallbackRoute()` calls.
+`services.AddSpaStaticFiles()` and `app.UseSpa()` calls
+after what's normally there in an aspnet project template.
 
-```cs
+```diff
+public void ConfigureServices(IServiceCollection services)
+{
+  services.AddMvc();
++  services.AddSpaStaticFiles(config =>
++  {
++    config.RootPath = "dist";
++  });
+}
+
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
-  if (env.IsDevelopment())
-  {
-    app.UseDeveloperExceptionPage();
-    app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-    {
-      HotModuleReplacement = true,
-      ConfigFile = Path.Combine(env.ContentRootPath, @"node_modules\@vue\cli-service\webpack.config.js")
-    });
-  }
+  // ... other aspnet configuration skipped here
 
   app.UseStaticFiles();
+  app.UseMvc();
 
-  app.UseMvc(routes =>
-  {
-    routes.MapRoute(
-      name: "default",
-      template: "{controller=Home}/{action=Index}/{id?}");
-
-    routes.MapSpaFallbackRoute(
-      name: "spa-fallback",
-      defaults: new { controller = "Home", action = "Index" });
-  });
++  app.UseSpa(config =>
++  {
++    if (env.IsDevelopment())
++    {
++      config.ApplicationBuilder.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
++      {
++        HotModuleReplacement = true,
++        ConfigFile = Path.Combine(env.ContentRootPath, 
++          @"node_modules\@vue\cli-service\webpack.config.js")
++      });
++      }
++  });
 }
 ```
 
@@ -46,7 +51,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
 Install these dev dependencies.
 
-```
+```bash
 npm install -D aspnet-webpack webpack-hot-middleware eventsource-polyfill
 ```
 
@@ -60,7 +65,7 @@ module.exports = {
 };
 ```
 
-If needs to use HMR in IE/Edge, copy the 
+If you needs to use HMR in IE/Edge, copy the 
 `node_modules/eventsource-polyfill/dist/eventsource.js` file to 
 somewhere in the public folder. Modify `index.html` to include
 it only during dev time.
@@ -74,7 +79,9 @@ it only during dev time.
 
 # CS project mods
 
-These are needed for proper build/release using dotnet.
+These are needed for proper release/publish using dotnet.
+What this does is exclude the **/dist** folder from project but
+still build the vue app and include it in published build.
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Web">

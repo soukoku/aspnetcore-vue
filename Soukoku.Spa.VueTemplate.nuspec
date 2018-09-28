@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Soukoku.Spa.VueTemplate</id>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <description>
       ASP.NET Core 2.1 SPA template with Vue cli 3 + HMR
     </description>

@@ -19,9 +19,6 @@ namespace aspnetcore_vue
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-#if !DEBUG
-                .UseWebRoot("dist")
-#endif
                 .UseStartup<Startup>();
     }
 }
