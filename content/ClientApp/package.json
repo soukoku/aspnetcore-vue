@@ -17,10 +17,7 @@
     "@vue/cli-plugin-eslint": "^3.0.1",
     "@vue/cli-service": "^3.0.1",
     "@vue/eslint-config-standard": "^3.0.1",
-    "aspnet-webpack": "^3.0.0",
-    "eventsource-polyfill": "^0.9.6",
-    "vue-template-compiler": "^2.5.17",
-    "webpack-hot-middleware": "^2.23.1"
+    "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {
     "root": true,

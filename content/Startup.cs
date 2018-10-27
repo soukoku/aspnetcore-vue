@@ -20,7 +20,7 @@ namespace aspnetcore_vue
             services.AddMvc();
             services.AddSpaStaticFiles(config =>
             {
-                config.RootPath = "dist";
+                config.RootPath = @"ClientApp\dist";
             });
         }
 
@@ -33,6 +33,7 @@ namespace aspnetcore_vue
             }
 
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
 
             app.UseMvc();
 
@@ -40,11 +41,8 @@ namespace aspnetcore_vue
             {
                 if (env.IsDevelopment())
                 {
-                    config.ApplicationBuilder.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                    {
-                        HotModuleReplacement = true,
-                        ConfigFile = Path.Combine(env.ContentRootPath, @"node_modules\@vue\cli-service\webpack.config.js")
-                    });
+                    // change this to whatever webpack dev server says it's running on
+                    config.UseProxyToSpaDevelopmentServer("http://localhost:8080");
                 }
             });
         }

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Soukoku.Spa.VueTemplate</id>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <description>
       ASP.NET Core 2.1 SPA template with Vue cli 3 + HMR
     </description>
@@ -17,6 +17,6 @@
     </packageTypes>
   </metadata>
   <files>
-    <file src="**" exclude=".*\**;*.sln;license;*.nupkg;*.cmd;*.md;content\bin\**;content\obj\**;content\node_modules\**;content\dist\**;content\*.user;content\Properties\PublishProfiles\**;" />
+    <file src="**" exclude=".*\**;*.sln;license;*.nupkg;*.cmd;*.md;content\bin\**;content\obj\**;content\ClientApp\node_modules\**;content\ClientApp\dist\**;content\*.user;content\Properties\PublishProfiles\**;" />
   </files>
 </package>

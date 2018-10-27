@@ -4,24 +4,29 @@ A sample aspnet project template with these features:
 
 * asp.net core 2.1 for server-side code
 * vue.js for client-side code (created with cli v3)
-* both live in one project with only one aspnet site to debug in VS
-* working HMR when debugging the aspnet site
+* both live in one project and debugging is done on the aspnet project
+* working HMR in vue app when debugging the aspnet site
 
-Below are the mods to make this happen.
+Below are the steps used to create this.
 
-# Server-side mods
 
-In `Startup.cs`, particularly the 
-`services.AddSpaStaticFiles()` and `app.UseSpa()` calls
-after what's normally there in an aspnet project template.
+# Aspnet Core Project
+Create a new dotnet core project with aspnet core template.
+
+Then In `Startup.cs`, add
+`services.AddSpaStaticFiles()` in `ConfigureServices()` method,
+and 'app.UseSpaStaticFiles()` and `app.UseSpa()` in `Configure()` method.
+
 
 ```cs
 public void ConfigureServices(IServiceCollection services)
 {
   services.AddMvc();
-  services.AddSpaStaticFiles(config =>
+
+  // new addition here
+  services.AddSpaStaticFiles(spa =>
   {
-    config.RootPath = "dist";
+    spa.RootPath = @"ClientApp\dist";
   });
 }
 
@@ -30,78 +35,74 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
   // ... other aspnet configuration skipped here
 
   app.UseStaticFiles();
+  app.UseSpaStaticFiles(); // new addition
   app.UseMvc();
 
-  app.UseSpa(config =>
+  // new addition
+  app.UseSpa(spa =>
   {
     if (env.IsDevelopment())
     {
-      config.ApplicationBuilder.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-      {
-        HotModuleReplacement = true,
-        ConfigFile = Path.Combine(env.ContentRootPath, 
-          @"node_modules\@vue\cli-service\webpack.config.js")
-      });
-      }
+      // change this to whatever webpack dev server says it's running on
+      spa.UseProxyToSpaDevelopmentServer("http://localhost:8080");
+    }
   });
 }
 ```
 
-# Client-side mods
-
-Install these dev dependencies.
-
-```bash
-npm install -D aspnet-webpack webpack-hot-middleware eventsource-polyfill
-```
-
-Delete HMR plugin in `vue.config.js` to actually get HMR working.
-
-```js
-module.exports = {
-  chainWebpack: config => {
-    config.plugins.delete('hmr');
-  }
-};
-```
-
-If you needs to use HMR in IE/Edge, copy the 
-`node_modules/eventsource-polyfill/dist/eventsource.js` file to 
-somewhere in the public folder. Modify `index.html` to include
-it only during dev time.
-
-```html
-<% if (NODE_ENV === 'development') { %>
-<script src="<%= BASE_URL %>js/eventsource.js"></script>
-<% } %>
-```
+# Vue Project
+Create a client-side project using vue cli 3 
+into a folder called ClientApp in the aspnet project folder.
 
 
-# CS project mods
 
-These are needed for proper release/publish using dotnet.
-What this does is exclude the **/dist** folder from project but
-still build the vue app and include it in published build.
+# Csproj File
+Some edits to the .csproj file are also needed for proper 
+release/publish using dotnet.
+
+The `PropertyGroup` defines a new variable `SpaRoot` for use later.
+
+The `ItemGroup` makes vue's project folder visible in VS
+but not include in build.
+
+`DebugEnsureNodeEnv` target installs npm packages if necessary
+on project builds.
+
+`PublishRunWebpack` target builds the vue app and 
+include the **dist** folder in the published files.
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Web">
-  ...blah blah...
 
+  <!-- ...default stuff skipped here... -->
+
+  <PropertyGroup>
+    <SpaRoot>ClientApp\</SpaRoot>
+  </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="dist\**" />
-    <Content Remove="dist\**" />
-    <EmbeddedResource Remove="dist\**" />
-    <None Remove="dist\**" />
+    <Content Remove="$(SpaRoot)**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)dist\**" />
   </ItemGroup>
-  <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
+  
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-    <!--<Exec Command="npm install" />-->
-    <Exec Command="npm run build" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
-      <DistFiles Include="dist\**" />
+      <DistFiles Include="$(SpaRoot)dist\**" />
       <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -109,4 +110,5 @@ still build the vue app and include it in published build.
     </ItemGroup>
   </Target>
 </Project>
+
 ```
