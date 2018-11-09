@@ -15,7 +15,7 @@ Create a new dotnet core project with aspnet core template.
 
 Then In `Startup.cs`, add
 `services.AddSpaStaticFiles()` in `ConfigureServices()` method,
-and 'app.UseSpaStaticFiles()` and `app.UseSpa()` in `Configure()` method.
+and `app.UseSpaStaticFiles()` and `app.UseSpa()` in `Configure()` method.
 
 
 ```cs
